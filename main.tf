@@ -44,7 +44,7 @@ resource "aws_security_group" "web" {
 
 #launch configuration
 resource "aws_launch_configuration" "web" {
-  name_prefix = "WebServer1-Highly-Available-LC-"
+  name_prefix     = "WebServer1-Highly-Available-LC-"
   image_id        = data.aws_ami.latest_amazon_linux.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.web.id]
@@ -58,7 +58,7 @@ resource "aws_launch_configuration" "web" {
 
 # auto-scaling group
 resource "aws_autoscaling_group" "web" {
-  name              = "ASG-${aws_launch_configuration.web.name}" #name depends on launch conf name so it will be ASG- and any new name from launch config
+  name                 = "ASG-${aws_launch_configuration.web.name}" #name depends on launch conf name so it will be ASG- and any new name from launch config
   launch_configuration = aws_launch_configuration.web.name
   min_size             = 2                                                                      # minimum of desired web servers, so we'll always have at least 2 servers
   max_size             = 2                                                                      # maximum of desired web servers
@@ -120,10 +120,10 @@ output "elb" {
 
 
 resource "aws_route53_record" "blog" {
-zone_id = "Z036419817HZP8WF7376S"
+  zone_id = "Z036419817HZP8WF7376S"
   name    = "blog.devopslearn.net"
   type    = "A"
- 
+
   alias {
     name                   = aws_elb.web.dns_name
     zone_id                = aws_elb.web.zone_id
